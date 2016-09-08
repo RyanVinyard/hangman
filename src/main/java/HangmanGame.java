@@ -1,24 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Console;
 import java.util.Random;
 import java.util.Arrays;
 
+
 public class HangmanGame {
-  Console myConsole = System.console();
 
-   String[] currentWord;
-   List<String> guessedWord = new ArrayList<String>();
-   String[] gameWords = {"ocean", "quick", "zebra", "bottle", "football"};
-  private int missedGuesses = 0;
-  private int allowedGuesses = 6;
+    private String[] currentWord;
+    private List<String> guessedWord = new ArrayList<String>();
+     List<String> guessedLetters = new ArrayList<String>();
+    private String[] easyGameWords = {"cat", "dog", "fish", "book"};
+    private String[] medGameWords = {"ocean", "quick", "zebra", "bottle", "football"};
+    private String[] hardGameWords = {"enumeration", "immaculate", "chinook", "cephalopod", "scry"};
+    private int missedGuesses = 0;
+    private int allowedGuesses = 6;
 
+  public void guessLetter(String letter){
 
-
-  // Method Letter Guess
-  public void guessLetter(){
-    System.out.println("What is your guess?");
-    String letter = myConsole.readLine();
     boolean flag = false;
     for(int i=0; i<currentWord.length; ++i){
       if(currentWord[i].equals(letter)) {
@@ -26,42 +24,34 @@ public class HangmanGame {
         flag = true;
       }
     }
-    if(!flag)
-      missedGuesses++;
+    
+    if(!flag){
+      boolean flag2 = true;
+      for(int j=0; j < guessedLetters.size(); ++j){
+        if(letter.equals(guessedLetters.get(j)))
+          flag2 = false;
+      }
+      if(flag2){
+        guessedLetters.add(letter);
+        missedGuesses++;
+      }
+    }
 
   }
 
-  public void chooseWord(){
+  public void chooseWord(String diffLevel){
     Random rand = new Random();
+    String[] gameWords = easyGameWords;
+
+    if(diffLevel.equals("medium"))
+        gameWords = medGameWords;
+    else if(diffLevel.equals("hard"))
+        gameWords = hardGameWords;
     int  i = rand.nextInt(gameWords.length);
     currentWord = gameWords[i].split("");
     for(int j=0; j<currentWord.length; ++j){
       guessedWord.add("_");
     }
-  }
-
-  public boolean displayGuess(){
-
-
-
-    for(int j=0; j<guessedWord.size(); ++j){
-      System.out.print(guessedWord.get(j) + " ");
-    }
-    System.out.print(" " + "Wrong Answers: " + missedGuesses + "/" + allowedGuesses + "\n");
-
-    if(missedGuesses >= allowedGuesses){
-      System.out.println("You Hang!");
-      return(false);
-    }
-    else if (hasWon()) {
-      System.out.println("You Won!");
-      return(false);
-    }
-    else{
-      return(true);
-    }
-
-
   }
 
   public boolean hasWon(){
@@ -72,75 +62,16 @@ public class HangmanGame {
     return(true);
   }
 
-
-public void drawHangman() {
-  System.out.println("  ____");
-  System.out.println(" |    |");
-
-  if(missedGuesses==0){
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
+  public int getMissedGuesses(){
+    return(missedGuesses);
   }
-
-  else if(missedGuesses==1){
-    System.out.println(" |    O");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
+  public int getAllowedGuesses(){
+    return(allowedGuesses);
   }
-
-  else if(missedGuesses==2){
-    System.out.println(" |    O");
-    System.out.println(" |    |");
-    System.out.println(" |    |");
-    System.out.println(" |");
-    System.out.println(" |");
-    System.out.println(" |");
+  public int getGuessedWordSize(){
+    return(guessedWord.size());
   }
-  else if(missedGuesses==3){
-    System.out.println(" |    O");
-    System.out.println(" |   /|");
-    System.out.println(" |  / |");
-    System.out.println(" |    |");
-    System.out.println(" |");
-    System.out.println(" |");
+  public String getGuessedCharAt(int i){
+    return(guessedWord.get(i));
   }
-  else if(missedGuesses==4){
-    System.out.println(" |    O");
-    System.out.println(" |   /|\\");
-    System.out.println(" |  / | \\");
-    System.out.println(" |    |");
-    System.out.println(" |");
-    System.out.println(" |");
-  }
-  else if(missedGuesses==5){
-    System.out.println(" |    O");
-    System.out.println(" |   /|\\");
-    System.out.println(" |  / | \\");
-    System.out.println(" |    |");
-    System.out.println(" |   /");
-    System.out.println(" |  /");
-  }
-  else if(missedGuesses==6){
-    System.out.println(" |    O");
-    System.out.println(" |   /|\\");
-    System.out.println(" |  / | \\");
-    System.out.println(" |    |");
-    System.out.println(" |   / \\");
-    System.out.println(" |  /   \\");
-  }
-
-  System.out.println("_|_");
-  System.out.println("|   |______");
-  System.out.println("|          |");
-  System.out.println("|__________|");
-  return;
-}
-
 }
