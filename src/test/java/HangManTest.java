@@ -2,13 +2,14 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-public class AnagramTest {
+public class HangmanTest {
 
   @Test
-  public void test1() {
-    // Anagram anaObject = new Anagram();
-    // Boolean test = anaObject.CompareWords("cinema", "iceman");
-    // assertEquals(true, test);
+  public void hasWonGame_detirminesWinState_bool1() {
+    HangmanGame gameObject = new HangmanGame();
+    gameObject.chooseWord("easy");
+    boolean test = gameObject.hasWonGame();
+     assertEquals(false, test);
   }
 
 

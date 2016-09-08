@@ -8,30 +8,43 @@ public class HangmanGame {
 
     private String[] currentWord;
     private List<String> guessedWord = new ArrayList<String>();
-     List<String> guessedLetters = new ArrayList<String>();
+    private List<String> guessedLetters = new ArrayList<String>();
     private String[] easyGameWords = {"cat", "dog", "fish", "book"};
     private String[] medGameWords = {"ocean", "quick", "zebra", "bottle", "football"};
     private String[] hardGameWords = {"enumeration", "immaculate", "chinook", "cephalopod", "scry"};
     private int missedGuesses = 0;
     private int allowedGuesses = 6;
 
-  public void guessLetter(String letter){
 
-    boolean flag = false;
+public void resetGame(){
+  guessedWord = new ArrayList<String>();
+  guessedLetters = new ArrayList<String>();
+  missedGuesses = 0;
+}
+
+  public void setUserWord(String word){
+    currentWord = word.split("");
+    for(int j=0; j<currentWord.length; ++j){
+      guessedWord.add("_");
+    }
+  }
+
+  public void guessLetter(String letter){
+    boolean goodGuess = false;
     for(int i=0; i<currentWord.length; ++i){
       if(currentWord[i].equals(letter)) {
         guessedWord.set(i, letter);
-        flag = true;
+        goodGuess = true;
       }
     }
-    
-    if(!flag){
-      boolean flag2 = true;
-      for(int j=0; j < guessedLetters.size(); ++j){
+
+    if(!goodGuess){
+      boolean uniqueLetter = true;
+      for(int j=0; j < guessedLetters.size(); ++j)
         if(letter.equals(guessedLetters.get(j)))
-          flag2 = false;
-      }
-      if(flag2){
+          uniqueLetter = false;
+
+      if(uniqueLetter){
         guessedLetters.add(letter);
         missedGuesses++;
       }
@@ -39,7 +52,7 @@ public class HangmanGame {
 
   }
 
-  public void chooseWord(String diffLevel){
+  public void chooseRandWord(String diffLevel){
     Random rand = new Random();
     String[] gameWords = easyGameWords;
 
@@ -48,13 +61,10 @@ public class HangmanGame {
     else if(diffLevel.equals("hard"))
         gameWords = hardGameWords;
     int  i = rand.nextInt(gameWords.length);
-    currentWord = gameWords[i].split("");
-    for(int j=0; j<currentWord.length; ++j){
-      guessedWord.add("_");
-    }
+    setUserWord(gameWords[i]);
   }
 
-  public boolean hasWon(){
+  public boolean hasWonGame(){
     for(int j=0; j<currentWord.length; ++j){
       if(!currentWord[j].equals(guessedWord.get(j)))
         return(false);
@@ -74,4 +84,19 @@ public class HangmanGame {
   public String getGuessedCharAt(int i){
     return(guessedWord.get(i));
   }
+  public String getGuessedLetters(){
+    String returnString = "[";
+    for(int j=0; j < guessedLetters.size(); ++j)
+      returnString += guessedLetters.get(j) + " ";
+    returnString += "]";
+    return(returnString);
+  }
+  public String getCurrentWord(){
+
+    String returnString = "";
+    for(int j=0; j < currentWord.length; ++j)
+      returnString += currentWord[j];
+    return(returnString);
+  }
+
 }

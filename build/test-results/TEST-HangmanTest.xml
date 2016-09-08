@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="HangmanTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-09-08T22:35:01" hostname="epicodus-13.local" time="0.002">
+  <properties/>
+  <testcase name="hasWonGame_detirminesWinState_bool1" classname="HangmanTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
